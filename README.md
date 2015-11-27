@@ -37,3 +37,7 @@ http://diylab.com.ua/
 
 
 5. python manage.py runserver
+
+
+db.sqlite3 contain some test data.
+admin - username: 'upik', password: 'dopler'
