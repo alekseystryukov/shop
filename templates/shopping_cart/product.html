@@ -1,0 +1,66 @@
+{% extends "shopping_cart/base.html" %}
+{% load i18n %}
+{% block title %}{{ product.name }}{% endblock title %}
+{% block content %}
+    <h1>{{ product.name }}</h1>
+    <table class="table table-bordered">
+        <caption>{% trans 'Product info' %}</caption>
+        <tr>
+            <td>Name</td>
+            <td>{{ product.name }}</td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td><a href="{% url 'products' product.category.id %} ">{{ product.category.name }}</a></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td>{{ product.price }}&nbsp;$</td>
+        </tr>
+        <tr>
+            <td>Add to Cart</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                   <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>&nbsp;{% trans 'Add' %}
+                </button>
+            </td>
+        </tr>
+    </table>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{ product.name }}</h4>
+                </div>
+                <form method="POST" role="form">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="well">
+                            {{ form.quantity.label_tag }}
+                            {{ form.quantity }}
+                            &times;
+                            <span id="product_price">{{ product.price }}</span>&nbsp;$
+                            =
+                            <span id="purchase_sum">{{ product.price }}</span>&nbsp;$
+                        </div>
+                        {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ form.quantity.errors }}
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function(){
+                                $('#myModal').modal('show');
+                            });
+                        </script>
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add to my Cart</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends "shopping_cart/base.html" %}
+{% load i18n %}
+{% block title %}{{ category.name }}{% endblock title %}
+{% block content %}
+    <h1>{{ category.name }}</h1>
+    <div class="list-group">
+    {% for product in products %}
+        <a href="{% url 'product' product.id %}" class="list-group-item">
+           {{ product.name }} <span class="label label-default pull-right">{{ product.price }}&nbsp;$</span>
+        </a>
+    {% endfor %}
+    </div>
+{% endblock content %}
+

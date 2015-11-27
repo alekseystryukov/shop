@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+
+{% block title %}
+{% trans 'Shopping Cart' %}
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'shopping_cart/css/base.css' %}" />
+{% endblock extra_head %}
+
+{% block body %}
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+           <a class="navbar-brand" href="{% url 'home' %}">
+               <span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;{% trans 'Categories' %}
+           </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="{% url 'cart' %}">
+                    <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>&nbsp;{% trans 'Cart' %}&nbsp;<span class="badge">{{ cart_count }}</span>
+                </a>
+            </li>
+         </ul>
+       </div>
+    </nav>
+    <div class="container">
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}  alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {{ block.super }}
+{% endblock body %}
+
+{% block extra_scripts %}
+<script src="{% static 'shopping_cart/js/base.js' %}"></script>
+{% endblock extra_scripts %}

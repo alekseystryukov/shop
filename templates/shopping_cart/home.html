@@ -1,0 +1,14 @@
+{% extends "shopping_cart/base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% trans 'Categories' %}</h1>
+    <div class="list-group">
+    {% for category in categories %}
+        <a href="{% url 'products' category.id %}" class="list-group-item">
+           {{ category.name }} <span class="badge">{{ category.product_count }}</span>
+        </a>
+    {% endfor %}
+    </div>
+{% endblock content %}
+

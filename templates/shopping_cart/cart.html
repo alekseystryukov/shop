@@ -1,0 +1,62 @@
+{% extends "shopping_cart/base.html" %}
+{% load i18n %}
+{% block title %}{% trans 'Cart' %}{% endblock title %}
+{% block content %}
+    <h1>{% trans 'Cart' %}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col width="80px">
+            </colgroup>
+            <tr>
+                <th>{% trans 'Product' %}</th>
+                <th>{% trans 'Price' %}</th>
+                <th>{% trans 'Quantity' %}</th>
+                <th>{% trans 'Sum' %}</th>
+                <th>{% trans 'Remove' %}</th>
+            </tr>
+            {% for purchase in cart %}
+            <tr>
+                <td>
+                    <a href="{% url 'product' purchase.product.id %}" target="_blank">
+                        {{ purchase.product.name }}
+                    </a>
+                </td>
+                <td>
+                    {{ purchase.product.price }}&nbsp;$
+                </td>
+                <td>
+                    {{ purchase.quantity }}
+                </td>
+                <td>
+                    {{ purchase.total_cost }}&nbsp;$
+                </td>
+                <td class="text-center">
+                    <button type="submit" class="btn btn-danger btn-xs" name="rm" value="{{ purchase.id }}">
+                        &times;
+                    </button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">{% trans 'Your cart is empty' %}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3"></td>
+                <td>{{ cart.total_cost }}&nbsp;$</td>
+                <td class="text-center">
+                    <button type="submit" class="btn btn-danger btn-xs" name="rm" value="all">
+                        {% trans 'Clear' %}
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock content %}
+
